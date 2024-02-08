@@ -13,8 +13,9 @@ let population = document.querySelector("#population");
 let car = document.querySelector("#car");
 let timezones = document.querySelector("#timezones");
 let continents = document.querySelector("#continents");
-let coatOfArms = document.querySelector("#coatOfArms");
 let startOfWeek = document.querySelector("#startOfWeek");
+let img = document.querySelector("#img");
+let coatOfArmsimg = document.querySelector("#coatOfArmsimg");
 
 const fetchdata = async () => {
     let response = await fetch(BASE_URL);
@@ -31,15 +32,10 @@ const dropdown = (data, size) => {
     for (let select of dropdowns) {
         for (let i = 0; i < size; i++) {
             let country = data[i].name.common;
-            // console.log(country);
             let fullname = data[i].name.official;
-            // console.log(fullname);
             let getcapital = data[i].capital;
-            // console.log(capital);
             let getregion = data[i].region;
-            // console.log(region);
             let getsubregion = data[i].subregion;
-            // console.log(subregion);
 
             let getlanguages = data[i].languages;
             for (const element in languages) {
@@ -47,23 +43,14 @@ const dropdown = (data, size) => {
             }
 
             let getlatlng = data[i].latlng;
-            // console.log(latlng);
             let getpopulation = data[i].population;
-            // console.log(population);
             let carsigns = data[i].car.signs;
-            // console.log(carsigns);
             let carside = data[i].car.side;
-            // console.log(carside);
             let gettimezones = data[i].timezones;
-            // console.log(timezones);
             let getcontinents = data[i].continents;
-            // console.log(continents["0"]);
-            let getflags = data[i].flags.png;
-            // console.log(flags);
+            let getimg = data[i].flags.png;
             let getcoatOfArms = data[i].coatOfArms.png;
-            // console.log(coatOfArms);
             let getstartOfWeek = data[i].startOfWeek;
-            // console.log(startOfWeek);
             
 
             // adding the country in the dropdown
@@ -71,6 +58,8 @@ const dropdown = (data, size) => {
             option.innerText = country;
             option.value = country;
             select.append(option);
+
+            // setting the default data 
             if (data[i].name.common === "India") {
                 option.selected = true;
                 p1.innerText = `Fullname: ${fullname}`;
@@ -82,7 +71,7 @@ const dropdown = (data, size) => {
                 subregion.innerText = getsubregion;
                 for (const element in getlanguages) {
                     console.log("lan: ", element);
-                    languages.innerText = languages.innerText + getsubregion + '\n';
+                    languages.innerText = languages.innerText + element + '\n';
                 }
                 const lat = getlatlng["0"];
                 const log = getlatlng["1"];
@@ -93,10 +82,9 @@ const dropdown = (data, size) => {
                 const getgetcontinents = getcontinents["0"]
                 console.log("getgetcontinents: ", getgetcontinents);
                 continents.innerText = getgetcontinents;
-                coatOfArms.innerText = getcoatOfArms;
                 startOfWeek.innerText = getstartOfWeek;
-
-
+                img.src = getimg;
+                coatOfArmsimg.src = getcoatOfArms;
             }
         }
     select.addEventListener("change" , (evt)=> {
@@ -115,11 +103,11 @@ const displayInfo = (country, data) => {
         // Extract the required information
 
             const country = selectedCountryData.name.common;
-            // console.log(country);
+            console.log("country: ", country);
             h1.innerText = country;
 
             const fullname = selectedCountryData.name.official;
-            // console.log(fullname);
+            console.log("fullname: ", fullname);
             p1.innerText = `Fullname: ${fullname}`;
 
             const getcapital = selectedCountryData.capital;
@@ -148,7 +136,6 @@ const displayInfo = (country, data) => {
             const log = getlatlng["1"];
             latlng.innerText = `latitude: ${lat} \n longitude: ${log}`;
 
-
             const getpopulation = selectedCountryData.population;
             console.log("population: ", getpopulation);
             population.innerText = getpopulation;
@@ -168,18 +155,17 @@ const displayInfo = (country, data) => {
             console.log("getgetcontinents: ", getgetcontinents);
             continents.innerText = getgetcontinents;
 
-
-            // const flags = selectedCountryData.flags.png;
-            // console.log(flags);
+            const flags = selectedCountryData.flags.png;
+            console.log(flags);
+            img.src = flags
 
             const getcoatOfArms = selectedCountryData.coatOfArms.png;
             console.log("coatOfArms:", getcoatOfArms);
-            coatOfArms.innerText = getcoatOfArms;
+            coatOfArmsimg.src = getcoatOfArms;
 
             const getstartOfWeek = selectedCountryData.startOfWeek;
             console.log("startOfWeek:", getstartOfWeek);
             startOfWeek.innerText = getstartOfWeek;
-
 
     } else {
         console.log('Data not found for the selected country.');
